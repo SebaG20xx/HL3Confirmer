@@ -1,0 +1,151 @@
+
+
+<html>
+    <head>
+        <title>Half life 3 confirmer</title>
+        <script src="jquery-1.7.2.min.js"></script>
+        <style>
+            body{
+                background-color: #484645;
+            }
+            .box{
+                width: 600px;
+                height: auto;
+                margin-left: auto;
+                margin-right: auto;
+                position: relative;
+                background-color: #e7e6e6;
+                border: 1px solid #bdbcbc;
+                border-radius: 3px;
+                text-align: center;
+                padding: 5px;
+                font-family: arial;
+                margin-top: -35px;
+                
+            }
+
+            .header{
+                font-size: 50px;
+                text-transform: uppercase;
+                color: #FFFFFF;
+                text-align: center;
+                font-family: arial;
+            }
+
+            .spinner{
+                width: 40px;
+                height: 40px;
+                margin-top: 20px;
+                display: none;
+            }
+
+            .result{
+                display: none;
+                width: 400px;
+                padding: 10px;
+                margin-left: auto;
+                margin-right: auto;
+                background-color: #FFFFFF;
+                -moz-box-shadow: 0px 5px 6px #CCCDCE;
+                -webkit-box-shadow: 0px 5px 6px #CCCDCE;
+                box-shadow: 0px 5px 6px #CCCDCE;
+                /* For IE 8 */
+                -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=180, Color='#CCCDCE')";
+                /* For IE 5.5 - 7 */
+                filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=180, Color='#CCCDCE');
+                margin-top: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .resultsHeader{
+                display: none;
+                margin-bottom: -45px;
+            }
+            
+            .number{
+                width: 300px;
+                height: 30px;
+                font-size: 25px;
+                text-align: center;
+                border-radius: 3px;
+                border: 1px solid #CCC;
+            }
+            
+            .confirmed{
+                font-size: 20px;
+                font-weight: bold;
+                color: #F7923A;
+            }
+            
+            .noRelease{
+                font-size: 20px;
+                font-weight: bold;
+                color: red;
+            }
+            
+            .submit{
+                width: 100px;
+                height: 50px;
+                font-size: 50px;
+                margin-top: 10px;
+            }
+            
+            h2{
+                margin: 0px;
+                padding: 0px;
+                width: 100%;
+                background-color: #e7e6e6;
+            }
+
+        </style>
+    </head>
+    <body>
+        <h1 class="header">Type a number to confirm <span style="color: #F7923A">Half Life 3</span></h1>
+        <div class="box">
+            <br>
+            <input class="number" type="text" placeholder='Enter a number greater than 11' style='font-size: 16px;'><br>
+            <input type="submit" class="submit"><br>
+            <img class="spinner" src="spinner.gif">
+
+            <div class="result">
+
+
+            </div>
+
+        </div>
+        <script>
+            $('.submit').click(function(){
+                $('.spinner').show();
+                $.post("halflife.php",{
+                    number:$('.number').val()
+                } ,function(data){
+                    $('.resultsHeader').show();
+                    $('.result').show();
+                    $('.submit').attr('value', 'Run again');
+                    $('.result').delay(5000).html(data);
+                    $('.spinner').delay(5000).hide();
+                })
+            })
+            $('.number').keydown(function(){
+                $('.submit').attr('value', 'Submit');
+                if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 27 || event.keyCode == 13 || 
+                    // Allow: Ctrl+A
+                (event.keyCode == 65 && event.ctrlKey === true) || 
+                    // Allow: home, end, left, right
+                (event.keyCode >= 35 && event.keyCode <= 39)) {
+                    // let it happen, don't do anything
+                    return;
+                }
+                else {
+                    // Ensure that it is a number and stop the keypress
+                    if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                        event.preventDefault(); 
+                    }   
+                }
+            })
+        
+        </script>
+
+    </body>
+
+</html>
